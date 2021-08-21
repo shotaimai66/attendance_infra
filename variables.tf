@@ -5,5 +5,5 @@ variable "database_password" {}
 
 # 作成するリソースのプレフィックス
 variable "r_prefix" {
-  default = "attendance"
+  default = "rails"
 }

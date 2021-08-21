@@ -3,14 +3,14 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 resource "aws_ecs_task_definition" "app" {
-  family                   = "${var.r_prefix}-app"
+  family                   = "${var.r_prefix}"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc" # Fargateを使う場合は「awsvpc」で固定
   task_role_arn            = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
   execution_role_arn       = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
   cpu                      = 512
   memory                   = 1024
-  container_definitions    = "${file("./task-definitions/app.json")}"
+  container_definitions    = "${file("./task-definitions/task-definition.json")}"
 }
 
 resource "aws_ecs_service" "service" {
@@ -18,7 +18,7 @@ resource "aws_ecs_service" "service" {
   launch_type                        = "FARGATE"
   deployment_minimum_healthy_percent = 100
   deployment_maximum_percent         = 200
-  name                               = "service"
+  name                               = "${var.r_prefix}-service"
   task_definition                    = "${aws_ecs_task_definition.app.arn}"
   desired_count                      = 1 # 常に1つのタスクが稼働する状態にする
 
@@ -32,13 +32,13 @@ resource "aws_ecs_service" "service" {
   }
 
   deployment_controller {
-    type = "CODE_DEPLOY"
+    type = "ECS"
   }
 
   load_balancer {
     target_group_arn = "${aws_alb_target_group.alb_target_blue.arn}"
-    container_name   = "${var.r_prefix}-nginx"
-    container_port   = 80
+    container_name   = "${var.r_prefix}"
+    container_port   = 3000
   }
 
   network_configuration {

@@ -1,6 +1,6 @@
 # App
 resource "aws_ecr_repository" "app" {
-  name                 = "${var.r_prefix}-app"
+  name                 = "${var.r_prefix}"
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
@@ -29,14 +29,4 @@ resource "aws_ecr_lifecycle_policy" "app_lifecycle_policy" {
     ]
   }
 EOF
-}
-
-# Nginx
-resource "aws_ecr_repository" "nginx" {
-  name = "${var.r_prefix}-nginx"
-  image_tag_mutability = "MUTABLE"
-
-  image_scanning_configuration {
-    scan_on_push = true
-  }
 }
