@@ -54,6 +54,19 @@ resource "aws_security_group_rule" "inbound_http" {
   security_group_id = "${aws_security_group.sg_alb.id}"
 }
 
+resource "aws_security_group_rule" "inbound_https" {
+  type        = "ingress"
+  from_port   = 443
+  to_port     = 443
+  protocol    = "tcp"
+  cidr_blocks = [
+    "0.0.0.0/0"
+  ]
+
+  # ここでweb_serverセキュリティグループに紐付け
+  security_group_id = "${aws_security_group.sg_alb.id}"
+}
+
 # データベース用
 resource "aws_security_group" "sg_db" {
   name        = "${var.r_prefix}-sg-db"
