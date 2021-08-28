@@ -20,6 +20,7 @@ resource "aws_route53_record" "Route53RecordSet4" {
     records = [
         "_6747aaa0a941ecd6735e7889da65753d.gxwgcdsjsl.acm-validations.aws."
     ]
+    allow_overwrite = true
     zone_id = "${aws_route53_zone.Route53HostedZone.zone_id}"
 }
 

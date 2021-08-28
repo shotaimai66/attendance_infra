@@ -6,8 +6,8 @@ resource "aws_ecs_task_definition" "app" {
   family                   = "${var.r_prefix}"
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc" # Fargateを使う場合は「awsvpc」で固定
-  task_role_arn            = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
-  execution_role_arn       = "arn:aws:iam::${var.aws_account_id}:role/ecsTaskExecutionRole"
+  task_role_arn            = aws_iam_role.ecsTaskExecutionRole.arn
+  execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
   cpu                      = 512
   memory                   = 1024
   container_definitions    = "${file("./task-definitions/task-definition.json")}"
