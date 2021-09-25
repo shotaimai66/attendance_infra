@@ -21,6 +21,7 @@ resource "aws_ecs_service" "service" {
   name                               = "${var.r_prefix}-service"
   task_definition                    = "${aws_ecs_task_definition.app.arn}"
   desired_count                      = 1 # 常に1つのタスクが稼働する状態にする
+  health_check_grace_period_seconds  = 1000
 
   // deployやautoscaleで動的に変化する値を差分だしたくないので無視する
   lifecycle {

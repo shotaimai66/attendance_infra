@@ -52,6 +52,10 @@
       {
         "valueFrom": "rails-rds-username",
         "name": "RDS_USERNAME"
+      },
+      {
+        "valueFrom": "rails-s3-bucket-name",
+        "name": "S3_BUCKET_NAME"
       }
     ],
     "dockerSecurityOptions": null,
